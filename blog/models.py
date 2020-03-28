@@ -1,6 +1,21 @@
 from django.db import models
 
 # Create your models here.
+class Tag(models.Model):
+    description = models.TextField(max_length=255)
+    nom = models.CharField(max_length=255)
+    date_add = models.DateTimeField(auto_now_add=True)
+    date_update = models.DateTimeField(auto_now=True)
+    status = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = 'tag'
+        verbose_name_plural = 'tags'
+
+    def __str__(self):
+        return self.nom
+
+
 class CategorieApplication(models.Model):
     nom = models.CharField(max_length=255)
     description = models.TextField(max_length=255)
@@ -23,6 +38,8 @@ class Application(models.Model):
     date_add = models.DateTimeField(auto_now_add=True)
     date_update = models.DateTimeField(auto_now=True)
     status = models.BooleanField(default=True)
+    tag = models.ManyToManyField(Tag,related_name='tag_application')
+    categorie = models.ForeignKey(CategorieApplication,on_delete=models.CASCADE,related_name='Application_categorie')
 
     class Meta:
         verbose_name = 'application'
@@ -44,18 +61,4 @@ class Commentaire(models.Model):
 
     def __str__(self):
         return self.message
-
-class Tag(models.Model):
-    description = models.TextField(max_length=255)
-    nom = models.CharField(max_length=255)
-    date_add = models.DateTimeField(auto_now_add=True)
-    date_update = models.DateTimeField(auto_now=True)
-    status = models.BooleanField(default=True)
-
-    class Meta:
-        verbose_name = 'tag'
-        verbose_name_plural = 'tags'
-
-    def __str__(self):
-        return self.nom
 
