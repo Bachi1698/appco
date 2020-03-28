@@ -5,7 +5,6 @@ from django.utils.safestring import mark_safe
 # Register your models here.
 class CustomAdmin(admin.ModelAdmin):
     actions = ('activate','desactivate')
-    list_filter = ('status',)
     list_per_page = 6
     date_hierachy = "date_add"
 
@@ -22,6 +21,7 @@ class CustomAdmin(admin.ModelAdmin):
 class TagAdmin(CustomAdmin):
     list_display = ('nom','date_add','date_update','status',)
     search_fields = ('nom',)
+    list_filter = ('status',)
     ordering = ['nom']
     fieldsets = [
                   ("info tag",{"fields":["nom","description",]}),
@@ -47,6 +47,7 @@ class CategorieApplicationAdmin(CustomAdmin):
     list_display = ('nom','date_add','date_update','status','image')
     search_fields =('nom',)
     ordering = ['nom']
+    list_filter = ('status',)
     readonly_fields = ['image_view']
     fieldsets = [
                   ("info categorie",{"fields":['nom','description','image']}),
@@ -60,6 +61,7 @@ class CategorieApplicationAdmin(CustomAdmin):
 class CommentaireAdmin(CustomAdmin):
     list_display = ('message','date_add','date_update','status')
     search_fields = ('message',)
+    list_filter = ('status',)
     fieldsets =[
                  ("info application",{"fields":["message",]}),
                   ("foreignkey",{"fields":['application']}),
